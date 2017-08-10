@@ -30,7 +30,10 @@
                 callFuncAndCheckParams(makePopPyramid, [data.pyramidData]);
             };
             resizePlots('.half-height', (rowHeight - verticalMarginHeight) / 2);
-            window.setTimeout(function () { return $('#loader').remove(); }, 100);
+            window.setTimeout(function () {
+                $('#load').remove();
+                $('.last-updated').html("<h4 class=\"timestamp\">Last Updated: " + data.metadata.timestamp + "</h4>");
+            }, 100);
         });
         $('.hamburger').click(function () { return $('#wrapper').toggleClass('toggled'); });
         $('.chart-row div').css('height', rowHeight + "px");
@@ -251,16 +254,31 @@
     }
     function makeResourceCountsTable(resourceLabels, resourceCounts, tagOrder) {
         var columnTitles = ['Resource'];
+        console.log(tagOrder);
         var tagOrderCopy = tagOrder.slice(-1, 1);
-        resourceCounts.forEach(function (resource, index) {
-            var columnTitle = resource[resource.length - 1];
-            if (index < resourceCounts.length - 1 && columnTitle !== tagOrderCopy[index]) {
-                resourceCounts.push(resourceCounts.splice(index, 1)[0]);
-                index -= 1;
-                return;
+        console.log(tagOrderCopy);
+        // resourceCounts.forEach((resource, index) => {
+        //     const columnTitle = resource[resource.length - 1];
+        //     if (index < resourceCounts.length - 1 && columnTitle !== tagOrderCopy[index]) {
+        //         resourceCounts.push(resourceCounts.splice(index, 1)[0]);
+        //         index -= 1;
+        //         return;
+        //     }
+        //     columnTitles.push(columnTitle);
+        // });
+        // console.log(columnTitles);
+        console.log(tagOrderCopy);
+        for (var i = 0; i < resourceCounts.length; i++) {
+            var columnTitle = resourceCounts[i][resourceCounts[i].length - 1];
+            if (i < resourceCounts.length - 1 && columnTitle !== tagOrder[i]) {
+                resourceCounts.push(resourceCounts.splice(i, 1)[0]);
+                console.log(resourceCounts);
+                i -= 1;
+                continue;
             }
             columnTitles.push(columnTitle);
-        });
+        }
+        console.log(columnTitles);
         var table = d3.select('.resourceTable')
             .append('table')
             .attr('class', 'table table-striped table-hover panel panel-default')
@@ -367,7 +385,6 @@
         addTableRow(tableBody, ['Supports JSON', getGlyph(metadata.supports.json)]);
         addTableRow(tableBody, ['Supports XML', getGlyph(metadata.supports.xml)]);
         addTableRow(tableBody, ['Supports SMART-on-FHIR', getGlyph(metadata.supports.smartOnFhir)]);
-        $('.last-updated').html("<h4 class=\"timestamp\">Last Updated: " + metadata.timestamp + "</h4>");
     }
     function addTableRow(tableBody, infoArr) {
         var tableRow = tableBody.append('tr');

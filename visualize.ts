@@ -38,7 +38,10 @@ declare var d3, jQuery, Plotly, document, window, console, MouseEvent;
                 callFuncAndCheckParams(makePopPyramid, [data.pyramidData]);
             };
             resizePlots('.half-height', (rowHeight - verticalMarginHeight) / 2);
-            window.setTimeout(() => $('#loader').remove(), 100);
+            window.setTimeout(() => {
+                $('#load').remove();
+                $('.last-updated').html(`<h4 class="timestamp">Last Updated: ${data.metadata.timestamp}</h4>`);
+            }, 100);
         });
 
         $('.hamburger').click(() => $('#wrapper').toggleClass('toggled'));
@@ -293,17 +296,15 @@ declare var d3, jQuery, Plotly, document, window, console, MouseEvent;
 
     function makeResourceCountsTable(resourceLabels, resourceCounts, tagOrder) {
         const columnTitles = ['Resource'];
-        const tagOrderCopy = tagOrder.slice(-1, 1);
-
-        resourceCounts.forEach((resource, index) => {
-            const columnTitle = resource[resource.length - 1];
-            if (index < resourceCounts.length - 1 && columnTitle !== tagOrderCopy[index]) {
-                resourceCounts.push(resourceCounts.splice(index, 1)[0]);
-                index -= 1;
-                return;
+        for (let i = 0; i < resourceCounts.length; i++) {
+            const columnTitle = resourceCounts[i][resourceCounts[i].length - 1];
+            if (i < resourceCounts.length - 1 && columnTitle !== tagOrder[i]) {
+                resourceCounts.push(resourceCounts.splice(i, 1)[0]);
+                i -= 1;
+                continue;
             }
             columnTitles.push(columnTitle);
-        });
+        }
 
         const table = d3.select('.resourceTable')
             .append('table')
@@ -421,8 +422,6 @@ declare var d3, jQuery, Plotly, document, window, console, MouseEvent;
         addTableRow(tableBody, ['Supports JSON', getGlyph(metadata.supports.json)]);
         addTableRow(tableBody, ['Supports XML', getGlyph(metadata.supports.xml)]);
         addTableRow(tableBody, ['Supports SMART-on-FHIR', getGlyph(metadata.supports.smartOnFhir)]);
-
-        $('.last-updated').html(`<h4 class="timestamp">Last Updated: ${metadata.timestamp}</h4>`);
     }
 
     function addTableRow(tableBody, infoArr) {
