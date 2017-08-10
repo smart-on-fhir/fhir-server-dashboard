@@ -1,0 +1,96 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Health Population Visualizations</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src='https://d3js.org/d3.v4.min.js'></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src='visualize.js'></script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+            <ul class="nav sidebar-nav">
+                <li class="sidebar-brand"></li>
+                <li class="sidelink overview">Overview</li>
+                <li class="sidelink patient-data">Population Data</li>
+            </ul>
+        </nav>
+        <div id="page-content-wrapper">
+            <div class="container dash">
+                <div class="row"  id="overview-header">
+                    <div class="col-sm-6">
+                        <h3>Overview</h3>
+                    </div>
+                </div>
+                <div class="row chart-row">
+                    <div class="col-sm-6">
+                        <div class="metadata"></div>
+                        <div class="boxes"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="resourceTable"></div>
+                    </div>
+                </div>
+                <div class="row" id="patient-header">
+                    <div class="col-sm-6">
+                        <h3>Population Data</h3>
+                    </div>
+                </div>
+                <div class="row chart-row">
+                    <div class="col-sm-6">
+                        <div class="popPyramid"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="raceBar"></div>
+                        <div class="ethBar"></div>
+                    </div>
+                </div>
+                <div class="row chart-row">
+                    <div class="col-sm-6">
+                        <div class="aliveBar"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="stateMap"></div>
+                    </div>
+                </div>
+                <div class="row chart-row">
+                    <div class="col-sm-6">
+                        <div class="matrix"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="meds"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid header">
+                <div class="row">
+                    <div class="col-xs-1">
+                        <div class="hamburger">
+                            <span class="hamb-top"></span>
+                            <span class="hamb-middle"></span>
+                            <span class="hamb-bottom"></span>
+                        </div>
+                    </div>
+                    <div class="col-xs-offset-2 col-xs-6">
+                        <h1 class="page-title text-center">FHIR Server Dashboard</h1>
+                    </div>
+                    <div class="col-xs-3 last-updated"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="loader"></div>
+</body>

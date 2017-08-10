@@ -1,0 +1,23 @@
+{
+  "name": "visualization-proj",
+  "version": "0.0.1",
+  "description": "Project that collects data from a FHIR server and turns that data into meaningful visualizations",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "FHIR"
+  ],
+  "author": "Asher Dale",
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.81.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-plugin-contracts": "^1.2.0",
+    "babel-preset-env": "^1.6.0",
+    "eslint": "^4.2.0"
+  }
+}

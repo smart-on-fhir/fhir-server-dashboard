@@ -1,0 +1,15 @@
+{
+  "presets": ["env"],
+  "plugins": [
+    ["contracts", {
+      "names": {
+        "assert": "assert",
+        "precondition": "pre",
+        "postcondition": "post",
+        "invariant": "invariant",
+        "return": "it",
+        "old": "old"
+      }
+    }]
+  ]
+}
