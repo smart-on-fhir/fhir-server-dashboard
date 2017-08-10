@@ -4,7 +4,7 @@ const ALL_TAGS = 'Total Count';
 const TABLE_LAST_ROW_LABEL = 'All Resources';
 const CONDITION_MATRIX_LENGTH = 10;
 const TOP_MEDS_AMOUNT = 10;
-const BOX_PLOT_AMOUNT = 3;
+const BOX_PLOT_AMOUNT = 5;
 
 // servers:  "https://sb-fhir-stu3.smarthealthit.org/smartstu3/open/"
 // "https://sb-fhir-dstu2.smarthealthit.org/api/smartdstu2/open/", "http://test.fhir.org/r3/"
@@ -12,7 +12,7 @@ const BOX_PLOT_AMOUNT = 3;
 
 // User settings
 const SERVER = 'https://sb-fhir-stu3.smarthealthit.org/smartstu3/open/';
-const TAGS = [];// ['smart-7-2017', 'synthea-7-2017'];
+const TAGS = ['pro-7-2017', 'smart-7-2017', 'synthea-7-2017'];
 
 module.exports = {
     DATA_FILE_PATH,
