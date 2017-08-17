@@ -7,41 +7,15 @@
   stroke: #555;
 }
 
-.axis text, #hover {
+.axis text {
   font-size: 11px;
-}
-
-.js-plotly-plot {
-    overflow: hidden;
-    background-color: white;
-}
-
-.metadata {
-    overflow: hidden;
-}
-
-.bar {
-  fill-opacity: 0.5;
-}
-
-.title {
-    font-size: 21px !important;
 }
 
 .plot {
     display: inline-block;
 }
 
-#load {
-    width: 100%;
-    height: 100%;
-    background-color: #e5e5e5;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.header {
+#header {
     top: 0px;
     width: 100%;
     position: fixed;
@@ -49,33 +23,41 @@
     background-color: white;
 }
 
-.popPyramid svg {
-    display: block;
-    margin: auto;
+#metadata {
+    margin-bottom: 30px !important;
 }
 
-.table {
-    background-color: white;
+#resourceTable table {
+    margin-bottom: 0 !important;        
 }
 
 /* Extra small devices (phones, up to 480px) */
 @media screen and (max-width: 767px) {
-    .page-title {
+    #page-title {
         font-size: 22px;
         margin: 0;
         padding-top: 13px;
     }
-    .timestamp {
+    #timestamp {
         font-size: 14px;
     }
-    .resourceTable, .raceBar, .stateMap, .meds {
+    #resourceTable, #raceBar, #stateMap, #meds {
         margin-top: 30px;
+    }
+    #hamburger {
+        top: 15px !important;
     }
 }
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) and (max-width: 991px) {
-    .page-title {
+    #page-title {
         font-size: 24px;
+    }
+    #resourceTable {
+        overflow: scroll;
+    }
+    #hamburger {
+        top: 20px !important;
     }
 }
 
@@ -250,10 +232,10 @@ html { height: 100%;}
 }
 
 /*-------------------------------*/
-/*       Hamburger-Cross         */
+/*       Hamburger CSS           */
 /*-------------------------------*/
 
-.hamburger {
+#hamburger {
   position: fixed; 
   cursor: pointer;
   top: 25px; 
@@ -263,36 +245,47 @@ html { height: 100%;}
   background: transparent;
   border: none;
 }
-.hamburger:hover,
-.hamburger:focus,
-.hamburger:active {
+#hamburger:hover,
+#hamburger:focus,
+#hamburger:active {
   outline: none;
 }
 
-.hamburger > span {
+#hamburger > span {
   background-color: #333;
   position: absolute;
   left: 0%;
   height: 4px;
   width: 100%;
 }
-.hamburger .hamb-top { 
+#hamburger #hamb-top { 
   top: 5px; 
 }
-.hamburger .hamb-middle {
+#hamburger #hamb-middle {
   top: 50%;
   margin-top: -2px;
 }
-.hamburger .hamb-bottom {
+#hamburger #hamb-bottom {
   bottom: 5px;  
 }
-.hamburger .hamb-fill {
+#hamburger #hamb-fill {
     background-color: transparent;
     width: 100%;
     height: 100%;
 }
 
-/* CSS for loader */
+
+/* CSS for animated loader */
+
+#load {
+    width: 100%;
+    height: 100%;
+    background-color: #e5e5e5;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 #loader,
 #loader:after {
   border-radius: 50%;
