@@ -1,24 +1,31 @@
 {
-    "name": "visualization-proj",
-    "version": "0.0.1",
-    "description": "Project that collects data from a FHIR server and turns that data into meaningful visualizations",
+    "name": "fhir-server-dashboard",
+    "engines": {
+        "node": ">=8",
+        "npm": ">=5"
+    },
+    "version": "1.0.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/asherdale/fhir-server-dashboard"
+    },
+    "description": "The FHIR Server Dashboard is a standalone app that presents a human-readable representation of the data in a FHIR server. Built with Node.js, d3, and Plotly, the dashboard consists of intuitive visualizations that enable clinicians and users to quickly comprehend what a FHIR server contains.",
     "main": "server/index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "deploy-gh": "git subtree push --prefix client origin gh-pages",
         "reset-gh-pages": "git push origin `git subtree split --prefix output gh-pages`:gh-pages --force",
-        "build": "./node_modules/.bin/tsc --outFile visualize.js visualize.ts"
+        "build": "./node_modules/.bin/tsc --outFile client/visualize.js client/visualize.ts",
+        "aggregate": "node server/index.js"
     },
-    "keywords": [
-        "FHIR"
-    ],
-    "author": "Asher Dale",
-    "license": "ISC",
+    "keywords": ["FHIR", "server", "dashboard", "smart-on-fhir"],
+    "author": "Asher Dale <asher@dales.org>",
+    "license": 	"Apache-2.0",
     "dependencies": {
         "request": "^2.81.0"
     },
     "devDependencies": {
         "eslint": "^4.2.0",
-        "tsc": "^1.20150623.0"
+        "typescript": "^2.4.2"
     }
 }

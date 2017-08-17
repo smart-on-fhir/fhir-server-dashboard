@@ -1,95 +1,114 @@
 <!doctype html>
-
 <html>
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Health Population Visualizations</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+    <title>FHIR Server Dashboard</title>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src='https://d3js.org/d3.v4.min.js'></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src='visualize.js'></script>
 </head>
 
 <body>
     <div id="wrapper">
-        <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+
+        <!-- The sidebar -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper">
             <ul class="nav sidebar-nav">
                 <li class="sidebar-brand"></li>
                 <li class="sidelink overview">Overview</li>
                 <li class="sidelink patient-data">Population Data</li>
             </ul>
         </nav>
+
         <div id="page-content-wrapper">
-            <div class="container dash">
-                <div class="row"  id="overview-header">
+            
+            <!-- The main content of the dashboard -->
+            <div class="container" id="dash">
+                <div class="row" id="overview-header">
                     <div class="col-sm-6">
                         <h3>Overview</h3>
                     </div>
                 </div>
                 <div class="row chart-row">
                     <div class="col-sm-6">
-                        <div class="metadata"></div>
-                        <div class="boxes"></div>
+                        <div id="metadata"></div>
+                        <div id="boxes"></div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="resourceTable"></div>
+                        <div id="resourceTable"></div>
                     </div>
                 </div>
                 <div class="row" id="patient-header">
-                    <div class="col-sm-6">
+                    <div class="col-sm-12">
                         <h3>Population Data</h3>
                     </div>
                 </div>
                 <div class="row chart-row">
                     <div class="col-sm-6">
-                        <div class="popPyramid"></div>
+                        <div id="popPyramid"></div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="raceBar"></div>
-                        <div class="ethBar"></div>
-                    </div>
-                </div>
-                <div class="row chart-row">
-                    <div class="col-sm-6">
-                        <div class="aliveBar"></div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="stateMap"></div>
+                        <div id="raceBar"></div>
+                        <div id="ethBar"></div>
                     </div>
                 </div>
                 <div class="row chart-row">
                     <div class="col-sm-6">
-                        <div class="matrix"></div>
+                        <div id="aliveBar"></div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="meds"></div>
+                        <div id="stateMap"></div>
+                    </div>
+                </div>
+                <div class="row chart-row">
+                    <div class="col-sm-6">
+                        <div id="matrix"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div id="meds"></div>
                     </div>
                 </div>
             </div>
-            <div id="load"><div id="loader"></div></div>
-            <div class="container-fluid header">
+
+            <!-- The animated loader -->
+            <div id="load">
+                <div id="loader"></div>
+            </div>
+
+            <!-- The fixed page header -->
+            <div class="container-fluid" id="header">
                 <div class="row">
+
+                    <!-- The hamburger sidebar button -->
                     <div class="col-xs-1">
-                        <div class="hamburger">
-                            <span class="hamb-top"></span>
-                            <span class="hamb-middle"></span>
-                            <span class="hamb-bottom"></span>
+                        <div id="hamburger">
+                            <span id="hamb-top"></span>
+                            <span id="hamb-middle"></span>
+                            <span id="hamb-bottom"></span>
                         </div>
                     </div>
+
+                    <!-- The main title of the dashboard -->
                     <div class="col-xs-offset-2 col-xs-6">
-                        <h1 class="page-title text-center">FHIR Server Dashboard</h1>
+                        <h1 class="text-center" id="page-title">FHIR Server Dashboard</h1>
                     </div>
-                    <div class="col-xs-3 last-updated"></div>
+
+                    <!-- The timestamp for the dashboard -->
+                    <div class="col-xs-3" id="last-updated"></div>
+
                 </div>
             </div>
+            
         </div>
     </div>
 </body>
+
+</html>

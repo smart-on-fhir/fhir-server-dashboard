@@ -6,7 +6,9 @@ The FHIR Server Dashboard is a standalone app that presents a human-readable rep
 
 This repository consists of two distinctive parts: a back-end process to analyze a FHIR server, and a static web page that renders the dashboard. These two parts are run independently of one another. The back-end code stores the aggregated data in a local JSON file, which the web page reads whenever it loads.
 
-These two processes are independent of one another because it would be extremely inefficient to analyze an entire FHIR server every time the dashboard is visited. As a result, the two parts are run separately to minimize unnecessary data processing and API calls. To use this app effectively, run the back-end code intermittently (e.g., once a week or every time the FHIR server is updated), and the dashboard will display when the server was last aggregated in the top left corner.
+These two processes are independent of one another because it would be extremely inefficient to analyze an entire FHIR server every time the dashboard is visited. As a result, the two parts are run separately to minimize unnecessary data processing and API calls.
+
+To use this app effectively, run the back-end code intermittently (e.g., once a week or every time the target FHIR server is updated), and the dashboard will display when the server was last aggregated in the top right corner.
 
 ## Prerequisites
 

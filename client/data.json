@@ -1,4 +1,19 @@
 {
+    "tags": [
+        "pro-7-2017",
+        "smart-7-2017",
+        "synthea-7-2017"
+    ],
+    "metadata": {
+        "url": "https://sb-fhir-stu3.smarthealthit.org/smartstu3/open/",
+        "timestamp": "08/17/2017 10:59",
+        "fhirVersion": "3.0.1",
+        "supports": {
+            "smartOnFhir": true,
+            "json": true,
+            "xml": true
+        }
+    },
     "pyramidData": [
         {
             "male": 40,
@@ -52,7 +67,7 @@
         },
         {
             "male": 46,
-            "female": 38,
+            "female": 37,
             "group": "50-54"
         },
         {
@@ -67,7 +82,7 @@
         },
         {
             "male": 46,
-            "female": 49,
+            "female": 50,
             "group": "65-69"
         },
         {
@@ -82,7 +97,7 @@
         },
         {
             "male": 43,
-            "female": 36,
+            "female": 35,
             "group": "80-84"
         },
         {
@@ -92,16 +107,16 @@
         },
         {
             "male": 33,
-            "female": 29,
+            "female": 30,
             "group": "90-94"
         },
         {
-            "male": 49,
+            "male": 47,
             "female": 46,
             "group": "95-99"
         },
         {
-            "male": 7,
+            "male": 9,
             "female": 5,
             "group": "100+"
         }
@@ -207,16 +222,6 @@
         10,
         5
     ],
-    "metadata": {
-        "url": "https://sb-fhir-stu3.smarthealthit.org/smartstu3/open/",
-        "timestamp": "08/10/2017 16:02",
-        "fhirVersion": "3.0.1",
-        "supports": {
-            "smartOnFhir": true,
-            "json": true,
-            "xml": true
-        }
-    },
     "medLabels": [
         "Penicillin V Potassium",
         "Acetaminophen",
@@ -240,11 +245,6 @@
         107,
         104,
         100
-    ],
-    "tags": [
-        "pro-7-2017",
-        "smart-7-2017",
-        "synthea-7-2017"
     ],
     "resourceLabels": [
         "AllergyIntolerance",
@@ -360,15 +360,15 @@
             "4,248",
             "1,107",
             "5,731",
-            "79,588",
+            "79,776",
             "1,425",
-            "1,592",
+            "1,594",
             "7",
             "8,947",
             "6",
             "450",
             "30",
-            "154,369",
+            "154,559",
             "Total Count"
         ]
     ],
@@ -2101,6 +2101,8 @@
                 0,
                 0,
                 0,
+                0,
+                0,
                 0
             ]
         },
@@ -3241,6 +3243,8 @@
                 4,
                 4,
                 1,
+                0,
+                0,
                 0,
                 0,
                 0,
@@ -5295,6 +5299,8 @@
                 0,
                 0,
                 0,
+                0,
+                0,
                 0
             ]
         },
@@ -6721,6 +6727,8 @@
                 14,
                 13,
                 2,
+                0,
+                0,
                 0,
                 0,
                 0,

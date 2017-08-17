@@ -1,3 +1,7 @@
+// This file contains two lists of resources, one for FHIR STU3 and one for FHIR DSTU2.
+// Each list contains all of the resources that link to a Patient resource in that version of FHIR.
+// These are the resources that are able to be used in the making of box plots in the dashboard.
+
 module.exports = {
     'STU3': [
         'Account',
