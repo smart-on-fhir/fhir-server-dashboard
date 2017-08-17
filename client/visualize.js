@@ -146,12 +146,11 @@
                 .attr('fill', fill)
                 .attr('stroke', chartColor)
                 .attr('stroke-width', 2)
-                .style('fill-opacity', 0.5)
-                .attr('numLabel', createBarNumLabels);
+                .attr('numLabel', createBarNumLabels)
+                .style('fill-opacity', 0.5);
         }
         drawBars(leftBars, 'left', function (datum) { return xScale(percentageOfTotalPop(datum.male)); }, 'steelblue');
         drawBars(rightBars, 'right', function (datum) { return xScale(percentageOfTotalPop(datum.female)); }, 'firebrick');
-        // $('.bar').each((iVar, eVar) => eVar.dispatchEvent(new MouseEvent('click')));
         // Creates a number label for each bar in the pyramid
         function createBarNumLabels(datum, id) {
             var bar = d3.select(this);
