@@ -69,6 +69,15 @@ TAGS: [],
 
 If you would like to change the front-end code, change `client/visualize.ts` and compile it to a javascript file using the `npm run build` command in your terminal from the project directory.
 
+## System Requirements
+The application should run on any operating system, on the following browser versions:
+- Google Chrome 29+
+- Firefox 27+
+- Safari 7.1+
+- Opera 16+
+- Internet Explorer 10+
+- Microsoft Edge 14+
+
 ## Information
 Made by Asher Dale (@asherdale) in summer 2017 while interning at the Computational Health Informatics Program at Boston Children's Hospital with the SMART team.
 
