@@ -462,7 +462,13 @@
      * @param {String} title the title of the plot
      * @param {Object} layout any layout configurations that are specific to this plot
      */
-    var makePlotLayout = function (title, layout) { return Object.assign({ font: { family: 'sans-serif' }, title: title }, layout); };
+    function makePlotLayout(title, layout) {
+        var layoutCopy = JSON.parse(JSON.stringify(layout));
+        layoutCopy.font = { family: 'sans-serif' };
+        layoutCopy.title = title;
+        return layoutCopy;
+        // (<any>Object).assign({ font: { family: 'sans-serif', }, title, }, layout);
+    }
     /**
      * Returns an animation for the screen to vertically scroll to a given point
      * @param {Number} yPoint the y-coordinate of the point to scroll to

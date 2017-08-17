@@ -18,10 +18,16 @@
         "build": "./node_modules/.bin/tsc --outFile client/visualize.js client/visualize.ts",
         "aggregate": "node server/index.js"
     },
-    "keywords": ["FHIR", "server", "dashboard", "smart-on-fhir"],
+    "keywords": [
+        "FHIR",
+        "server",
+        "dashboard",
+        "smart-on-fhir"
+    ],
     "author": "Asher Dale <asher@dales.org>",
-    "license": 	"Apache-2.0",
+    "license": "Apache-2.0",
     "dependencies": {
+        "http-server": "^0.10.0",
         "request": "^2.81.0"
     },
     "devDependencies": {

@@ -515,7 +515,12 @@ declare var d3, jQuery, Plotly, document: Document, window: Window, console: Con
      * @param {String} title the title of the plot
      * @param {Object} layout any layout configurations that are specific to this plot
      */
-    const makePlotLayout = (title, layout) => (<any>Object).assign({ font: { family: 'sans-serif', }, title, }, layout);
+    function makePlotLayout(title, layout) {
+        const layoutCopy = JSON.parse(JSON.stringify(layout));
+        layoutCopy.font = { family: 'sans-serif', };
+        layoutCopy.title = title;
+        return layoutCopy;
+    }
 
     /**
      * Returns an animation for the screen to vertically scroll to a given point

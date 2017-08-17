@@ -2,7 +2,7 @@
 
 DEMO: https://asherdale.github.io/fhir-server-dashboard/.
 
-The FHIR Server Dashboard is a standalone app that presents a human-readable representation of the data in a FHIR server. Built with Node.js, d3, and Plotly, the dashboard consists of intuitive visualizations that enable clinicians and users to quickly comprehend what a FHIR server contains.
+The FHIR Server Dashboard is a standalone app that presents a human-readable representation of the data in a FHIR server. It's particularly useful when looking at the sample data on a FHIR sandbox. Built with Node.js, d3, and Plotly, the dashboard consists of intuitive visualizations that enable clinicians and users to quickly comprehend what a FHIR server contains.
 
 This repository consists of two distinctive parts: a back-end process to analyze a FHIR server, and a static web page that renders the dashboard. These two parts are run independently of one another. The back-end code stores the aggregated data in a local JSON file, which the web page reads whenever it loads.
 
