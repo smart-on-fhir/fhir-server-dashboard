@@ -3,8 +3,8 @@ const config = require('./config');
 const lib = require('./lib');
 const medicationData = require('./medication_data');
 const boxPlotResourceList = require('./box-plot-resource-list');
-const APP = require("commander");
-const PCG = require("../package.json");
+const APP = require('commander');
+const PCG = require('../package.json');
 
 /**
  * Clears the data.json file and starts to aggregate the data on the FHIR server

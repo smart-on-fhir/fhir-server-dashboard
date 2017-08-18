@@ -28,7 +28,6 @@
     "license": "Apache-2.0",
     "dependencies": {
         "commander": "^2.11.0",
-        "http-server": "^0.10.0",
         "request": "^2.81.0"
     },
     "devDependencies": {
