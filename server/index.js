@@ -329,7 +329,8 @@ function getDataForBoxPlots(resourceLabels, resCounts, fhirVersion) {
     resourcesToPlot.length = Math.min(resourcesToPlot.length, config.BOX_PLOT_AMOUNT);
 
     if (!resourcesToPlot.includes('Condition')) {
-        lib.getAllResources(lib.buildFhirURL(APP.server, 'Condition', ['_count=50']), handleConditionData);
+        lib.getAllResources(lib.buildFhirURL(APP.server, 'Condition', ['_count=50']),
+            handleConditionData);
     }
 
     const boxPlotPromises = resourcesToPlot.map(resource => getBoxPlotPromise(resource));
