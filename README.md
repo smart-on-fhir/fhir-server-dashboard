@@ -1,6 +1,6 @@
 # FHIR Server Dashboard
 
-DEMO: https://asherdale.github.io/fhir-server-dashboard/.
+DEMO: http://docs.smarthealthit.org/fhir-server-dashboard/.
 
 The FHIR Server Dashboard is a standalone app that presents a human-readable representation of the data in a FHIR server. It's particularly useful when looking at the sample data on a FHIR sandbox. Built with Node.js, d3, and Plotly, the dashboard consists of intuitive visualizations that enable clinicians and users to quickly comprehend what a FHIR server contains.
 
@@ -25,7 +25,7 @@ node -v
 Run these commands in your terminal:
 ```sh
 cd my/directory/somewhere
-git clone https://github.com/asherdale/fhir-server-dashboard.git
+git clone https://github.com/smart-on-fhir/fhir-server-dashboard.git
 cd fhir-server-dashboard
 npm i
 ```
@@ -62,7 +62,7 @@ or just call this command:
 ```sh
 node server --server https://sb-fhir-stu3.smarthealthit.org/smartstu3/open/
 ```
-Check out the resulting `client/index.html` by opening it in a browser of your choice, or look at an example here: https://asherdale.github.io/fhir-server-dashboard/.
+Check out the resulting `client/index.html` by opening it in a browser of your choice, or look at an example here: http://docs.smarthealthit.org/fhir-server-dashboard/.
 
 ## Configuration
 
@@ -95,9 +95,9 @@ fhir-server-dashboard.com?file=otherDataFile.json
 ```
 Using this feature, you can use this project to display multiple FHIR servers from the same base URL. To see an example of this, check out these two links:
 
-https://asherdale.github.io/fhir-server-dashboard/
+http://docs.smarthealthit.org/fhir-server-dashboard/
 
-https://asherdale.github.io/fhir-server-dashboard/?file=otherDataFile.json
+http://docs.smarthealthit.org/fhir-server-dashboard/?file=data-dstu2.json
 
 ## Development
 
