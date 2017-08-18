@@ -3,13 +3,18 @@ const config = require('./config');
 const lib = require('./lib');
 const medicationData = require('./medication_data');
 const boxPlotResourceList = require('./box-plot-resource-list');
+const APP = require("commander");
+const PCG = require("../package.json");
 
 /**
  * Clears the data.json file and starts to aggregate the data on the FHIR server
  */
 function aggregate() {
-    fs.writeFileSync(config.DATA_FILE_PATH, '{"tags": []}');
-    lib.getAllResources(lib.buildFhirURL('Patient', ['_count=50']), handlePatientData);
+    if (!fs.existsSync(APP.outputFile)) {
+        fs.closeSync(fs.openSync(APP.outputFile, 'w'));
+    }
+    fs.writeFileSync(APP.outputFile, '{"tags": []}');
+    lib.getAllResources(lib.buildFhirURL(APP.server, 'Patient', ['_count=50']), handlePatientData);
     getDataForResourceTable(config.TAGS);
 }
 
@@ -41,7 +46,7 @@ function handlePatientData(data) {
 
     const dataToSave = {};
     saveLabels.forEach((label, index) => dataToSave[label] = saveValues[index]);
-    lib.saveDataToFile(config.DATA_FILE_PATH, dataToSave);
+    lib.saveDataToFile(APP.outputFile, dataToSave);
 }
 
 /**
@@ -217,7 +222,7 @@ function handleConditionData(data) {
     }, []);
 
     const dataToSave = { 'conditionMatrixLabels': conLabels, conditionMatrixValues, };
-    lib.saveDataToFile(config.DATA_FILE_PATH, dataToSave);
+    lib.saveDataToFile(APP.outputFile, dataToSave);
 }
 
 /**
@@ -242,11 +247,11 @@ function updateConditionStats(conditions, resource) {
  * @param {String[]} tags the tags on the server to include in the resource counts table
  */
 function getDataForResourceTable(tags) {
-    lib.httpRequest(lib.buildFhirURL('metadata', []), (result) => {
-        lib.saveDataToFile(config.DATA_FILE_PATH, { 'metadata': getMetadataInfo(result), });
+    lib.httpRequest(lib.buildFhirURL(APP.server, 'metadata', []), (result) => {
+        lib.saveDataToFile(APP.outputFile, { 'metadata': getMetadataInfo(result), });
 
         const fhirVersion = result.fhirVersion || 'Not Provided';
-        medicationData.aggregate(fhirVersion);
+        medicationData.aggregate(APP, fhirVersion);
 
         const serverResourceList = lib.checkPath(result, ['rest', 0, 'resource']);
         if (!serverResourceList) return;
@@ -273,7 +278,7 @@ function getDataForResourceTable(tags) {
                     resourceCounts.push(totalCounts);
                     const resourceLabels = resourcesSupported.concat([config.TABLE_LAST_ROW_LABEL]);
                     const dataToSave = { tags, resourceLabels, resourceCounts, };
-                    lib.saveDataToFile(config.DATA_FILE_PATH, dataToSave);
+                    lib.saveDataToFile(APP.outputFile, dataToSave);
 
                     totalCounts = totalCounts.map(num => parseInt(num.replace(/,/g, '')));
                     getDataForBoxPlots(resourcesSupported, totalCounts, fhirVersion);
@@ -299,7 +304,7 @@ function getResourceCounts(resources, tag, resolve, counts = []) {
     }
     const params = ['_summary=count'];
     if (tag !== config.ALL_TAGS) params.push(`_tag=${tag}`);
-    lib.httpRequest(lib.buildFhirURL(resources[0], params), (response) => {
+    lib.httpRequest(lib.buildFhirURL(APP.server, resources[0], params), (response) => {
         getResourceCounts(resources.slice(1), tag, resolve, counts.concat([response.total]));
     });
 }
@@ -327,7 +332,7 @@ function getDataForBoxPlots(resourceLabels, resCounts, fhirVersion) {
     if (index > -1) resourcesToPlot.splice(index, 1);
 
     if (!resourcesToPlot.includes('Condition')) {
-        lib.getAllResources(lib.buildFhirURL('Condition', ['_count=50']), handleConditionData);
+        lib.getAllResources(lib.buildFhirURL(APP.server, 'Condition', ['_count=50']), handleConditionData);
     }
 
     const boxPlotPromises = resourcesToPlot.map(resource => getBoxPlotPromise(resource));
@@ -341,7 +346,7 @@ function getDataForBoxPlots(resourceLabels, resCounts, fhirVersion) {
  */
 function getBoxPlotPromise(resource) {
     return new Promise((resolve) => {
-        lib.getAllResources(lib.buildFhirURL(resource, ['_count=50']), (result) => {
+        lib.getAllResources(lib.buildFhirURL(APP.server, resource, ['_count=50']), (result) => {
             const resourceType = result[0].resource.resourceType;
             if (resourceType === 'Condition') handleConditionData(result);
 
@@ -375,7 +380,7 @@ function saveBoxPlotData(boxPlotData, numPatients) {
         if (boxPlotValues.filter(value => value > 0).length === 0) return;
         return { resource: data.resource, data: boxPlotValues, };
     });
-    lib.saveDataToFile(config.DATA_FILE_PATH, { 'boxPlotData': dataToSave, });
+    lib.saveDataToFile(APP.outputFile, { 'boxPlotData': dataToSave, });
 }
 
 /**
@@ -397,7 +402,7 @@ function getMetadataInfo(data) {
         });
     }
     return {
-        url: config.SERVER,
+        url: APP.server,
         timestamp: getCurrentTime(),
         fhirVersion: data.fhirVersion || 'Not Provided',
         supports,
@@ -426,5 +431,18 @@ function formatTime(num) {
 }
 
 // Run ==================================================================================
+
+APP.version(PCG.version)
+    .option('-s, --server <url>', 'The target fhir server url', config.SERVER)
+    .option('-o, --output-file <file>', 'The output JSON file', config.DATA_FILE_PATH)
+    .parse(process.argv);
+
+if (!APP.server || APP.server.trim() === '') {
+    throw new Error('Invalid server URL.');
+}
+
+if (!APP.server.endsWith('/')) APP.server = `${APP.server}/`;
+if (!APP.outputFile.startsWith('./client/')) APP.outputFile = `./client/${APP.outputFile}`;
+if (!APP.outputFile.endsWith('.json')) APP.outputFile = `${APP.outputFile}.json`;
 
 aggregate();

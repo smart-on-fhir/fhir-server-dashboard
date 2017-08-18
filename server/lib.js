@@ -1,5 +1,4 @@
 const request = require('request');
-const config = require('./config');
 const fs = require('fs');
 
 /**
@@ -18,13 +17,13 @@ function httpRequest(url, callback) {
 
 /**
  * Creates a URL to query a FHIR server
+ * @param {String} server the URL of the target FHIR server
  * @param {String} path the path of the query within the server, typically a FHIR resource
  * @param {String[]} params the parameters of the query
  * @returns {String} the built URL
  */
-function buildFhirURL(path, params) {
+function buildFhirURL(server, path, params) {
     const parameters = params.reduce((sum, param) => `${sum + param}&`, '');
-    const server = config.SERVER.endsWith('/') ? config.SERVER : `${config.SERVER}/`;
     return `${server + path}?${parameters}_format=json`;
 }
 
@@ -165,7 +164,7 @@ function toTitleCase(str) {
  */
 function saveDataToFile(file, newData) {
     const jsonContent = Object.assign(JSON.parse(fs.readFileSync(file).toString()), newData);
-    fs.writeFileSync(file, JSON.stringify(jsonContent, null, 4)); // Switch back before deployment
+    fs.writeFileSync(file, JSON.stringify(jsonContent, null, 4));
 }
 
 module.exports = {

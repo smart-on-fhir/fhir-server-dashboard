@@ -1,16 +1,20 @@
 const fs = require('fs');
 const config = require('./config');
 const lib = require('./lib');
+let APP = {};
 
 /**
  * Starts to aggregate the medication data
+ * @param {Object} app an object containing the fhir server url and the data output file path
  * @param {String} fhirVersion the FHIR version of the server
  */
-function aggregate(fhirVersion) {
+function aggregate(app, fhirVersion) {
+    APP = app;
+
     const resource = fhirVersion.charAt(0) === '3' || fhirVersion === 'Not Provided'
         ? 'MedicationRequest' : 'MedicationOrder';
 
-    lib.getAllResources(lib.buildFhirURL(resource,
+    lib.getAllResources(lib.buildFhirURL(APP.server, resource,
         [`_include=${resource}:medication`, '_count=50']), handleMedData);
 }
 
@@ -265,7 +269,7 @@ function saveMedData(medNames) {
         'medLabels': labelsAndValues[0],
         'medValues': labelsAndValues[1],
     };
-    lib.saveDataToFile(config.DATA_FILE_PATH, dataToSave);
+    lib.saveDataToFile(APP.outputFile, dataToSave);
     lib.saveDataToFile(config.RXNORM_FILE_PATH, medNames.cache);
 }
 

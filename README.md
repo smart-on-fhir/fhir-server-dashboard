@@ -42,19 +42,37 @@ npm run aggregate
 ```
 After these two steps, simply open `client/index.html` in the browser of your choice.
 
+Alternatively, instead of defining the server in `server/config.js`, you can pass in the target FHIR server's URL through the command line:
+```sh
+node server --server my-fhir-server-url.com
+```
+A URL passed in through the command line will override the `SERVER` variable in `server/config.js`.
+
 #### Example Usage
 
-Define the server as the SMART STU3 Sandbox server:
+Define the server as the SMART STU3 Sandbox server in `server/config.js` and then aggregate the data with `npm run aggregate`, or pass it in through the command line:
 ```js
 SERVER: 'https://sb-fhir-stu3.smarthealthit.org/smartstu3/open/',
 ```
-Aggregate the data with `npm run aggregate`, and check out the resulting `index.html` here: https://asherdale.github.io/fhir-server-dashboard/.
+and
+```sh
+npm run aggregate
+```
+or just call this command:
+```sh
+node server --server https://sb-fhir-stu3.smarthealthit.org/smartstu3/open/
+```
+Check out the resulting `client/index.html` by opening it in a browser of your choice, or look at an example here: https://asherdale.github.io/fhir-server-dashboard/.
 
 ## Configuration
 
-To change the target server, change the value of the `SERVER` variable in `server/config.js`:
+To change the target server, change the value of the `SERVER` variable in `server/config.js` or pass it in through the command line::
 ```js
 SERVER: 'my-fhir-server-url.com',
+```
+or
+```sh
+node server --server my-fhir-server-url.com
 ```
 
 To add extra columns to the Resource Counts Table, specify the tags that your server contains in an array in `server/config.js`:
@@ -67,7 +85,23 @@ For each tag that you specify in the `TAGS` variable, the Resource Counts Table 
 TAGS: [],
 ```
 
-If you would like to change the front-end code, change `client/visualize.ts` and compile it to a javascript file using the `npm run build` command in your terminal from the project directory.
+The default file that contains the aggregated server data is `client/data.json`, but one can save the aggregated data to a different file in the `client` directory. In the command line, you can specify the name of a different output file:
+```sh
+node server --output-file otherDataFile.json
+```
+To access this other data file when opening the dashboard, specify the name of the other data file in the `file` parameter in the URL of your dashboard:
+```
+fhir-server-dashboard.com?file=otherDataFile.json
+```
+Using this feature, one can use this project to display multiple FHIR servers from the same base URL. To see an example of this, check out these two links:
+
+https://asherdale.github.io/fhir-server-dashboard/
+
+https://asherdale.github.io/fhir-server-dashboard/?file=otherDataFile.json
+
+## Development
+
+If you would like to change the front-end javascript code, edit the `client/visualize.ts` file and compile it to a javascript file using the `npm run build` command in your terminal from the project directory.
 
 ## System Requirements
 The application should run on any operating system, on the following browser versions:

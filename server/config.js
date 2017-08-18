@@ -10,8 +10,8 @@ module.exports = {
     // USER SETTINGS
 
     // The URL for the server
-    SERVER: 'https://sb-fhir-stu3.smarthealthit.org/smartstu3/open/',
+    SERVER: '',
 
     // The tags that you wish to include in the Resource Counts Table
-    TAGS: ['pro-7-2017', 'smart-7-2017', 'synthea-7-2017'],
+    TAGS: [],
 };

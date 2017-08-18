@@ -6,55 +6,31 @@ declare var d3, jQuery, Plotly, document: Document, window: Window, console: Con
     const rowHeight = 450;
 
     /**
-     * Reads data from the data.json file and begins to create the visualizations
+     * Reads data from the data.json file (or the given local file in the url of the dashboard
+     * from the parameter 'file', e.g. dashboard-url.com?file=otherData.json) and begins to
+     * create the visualizations
      */
     function start() {
-        $.getJSON('data.json', (data) => {
-            // Create every visualization in the dashboard
-            checkParams(makePopPyramid, [data.pyramidData]);
-            checkParams(makeBoxPlot, [data.boxPlotData]);
-            checkParams(makeGenderGroupedBar,
-                ['Patient Race', data.fRaceLabels, data.fRaceValues,
-                    data.mRaceLabels, data.mRaceValues, 'raceBar', true]);
-            checkParams(makeGenderGroupedBar,
-                ['Patient Ethnicity', data.fEthLabels, data.fEthValues,
-                    data.mEthLabels, data.mEthValues, 'ethBar', true]);
-            checkParams(makeMatrix,
-                [data.conditionMatrixLabels, data.conditionMatrixValues]);
-            checkParams(makeMedBarChart,
-                [data.medLabels, data.medValues]);
-            checkParams(makeResourceCountsTable,
-                [data.resourceLabels, data.resourceCounts, data.tags.concat([''])]);
-            checkParams(makeStateMap, [data.states]);
-            checkParams(serverOverview, [data.metadata]);
+        let dataFile = 'data.json';
 
-            const mortLabels = ['Alive', 'Deceased'];
-            checkParams(makeGenderGroupedBar, ['Patient Mortality', mortLabels,
-                data.fAliveArr, mortLabels, data.mAliveArr, 'aliveBar', false]);
+        // Checks for a given data file in the url
+        const param = getQueryVariable('file');
+        if (param) {
+            const file = param.substr(param.length - 5) === '.json' ? param : `${param}.json`;
 
-            // Resize the Plotly plots and population pyramid when the window is resized horizontally
-            let prevWidth = $(window).width();
-            window.onresize = () => {
-                const currentWidth = $(window).width();
-                if (currentWidth === prevWidth) return;
-                prevWidth = currentWidth;
-                resizePlots('.js-plotly-plot', rowHeight);
-                resizePlots('.half-height', (rowHeight - verticalMarginHeight) / 2);
-                checkParams(makePopPyramid, [data.pyramidData]);
-            };
-            resizePlots('.half-height', (rowHeight - verticalMarginHeight) / 2);
+            if (file.indexOf('/') < 0 && file.indexOf('..') < 0) {
+                dataFile = file;
+            }
+        }
 
-            window.setTimeout(() => {
-                // Remove the loader animation
-                $('#load').remove();
-
-                // Add the timestamp in the left of header
-                $('#last-updated').html(`<h4 id="timestamp">Last Updated: ${data.metadata.timestamp}</h4>`);
-
-                // Disable mouse events for population map Plotly plot
-                $('.geolayer .geo').css('pointer-events', 'none');
-            }, 100);
-        });
+        // Gets the JSON from a local file and passes it to a handler function
+        $.getJSON(dataFile)
+            .then((data) => data,
+            () => {
+                console.error('Failed to load the specified JSON file');
+                return $.getJSON('data.json');
+            }
+            ).always(handleJSON);
 
         // Miscellaneous css styling and event handling
         $('#hamburger').click(() => $('#wrapper').toggleClass('toggled'));
@@ -67,6 +43,57 @@ declare var d3, jQuery, Plotly, document: Document, window: Window, console: Con
     }
 
     /**
+     * Handles the JSON from a local file and creates the dashboard's visualizations
+     * @param {Object} data the data from a local file that contains aggregated data from a server
+     */
+    function handleJSON(data) {
+        // Create every visualization in the dashboard
+        checkParams(makePopPyramid, [data.pyramidData]);
+        checkParams(makeBoxPlot, [data.boxPlotData]);
+        checkParams(makeGenderGroupedBar,
+            ['Patient Race', data.fRaceLabels, data.fRaceValues,
+                data.mRaceLabels, data.mRaceValues, 'raceBar', true]);
+        checkParams(makeGenderGroupedBar,
+            ['Patient Ethnicity', data.fEthLabels, data.fEthValues,
+                data.mEthLabels, data.mEthValues, 'ethBar', true]);
+        checkParams(makeMatrix,
+            [data.conditionMatrixLabels, data.conditionMatrixValues]);
+        checkParams(makeMedBarChart,
+            [data.medLabels, data.medValues]);
+        checkParams(makeResourceCountsTable,
+            [data.resourceLabels, data.resourceCounts, data.tags.concat([''])]);
+        checkParams(makeStateMap, [data.states]);
+        checkParams(serverOverview, [data.metadata]);
+
+        const mortLabels = ['Alive', 'Deceased'];
+        checkParams(makeGenderGroupedBar, ['Patient Mortality', mortLabels,
+            data.fAliveArr, mortLabels, data.mAliveArr, 'aliveBar', false]);
+
+        // Resize the Plotly plots and population pyramid when the window is resized horizontally
+        let prevWidth = $(window).width();
+        window.onresize = () => {
+            const currentWidth = $(window).width();
+            if (currentWidth === prevWidth) return;
+            prevWidth = currentWidth;
+            resizePlots('.js-plotly-plot', rowHeight);
+            resizePlots('.half-height', (rowHeight - verticalMarginHeight) / 2);
+            checkParams(makePopPyramid, [data.pyramidData]);
+        };
+        resizePlots('.half-height', (rowHeight - verticalMarginHeight) / 2);
+
+        window.setTimeout(() => {
+            // Remove the loader animation
+            $('#load').remove();
+
+            // Add the timestamp in the left of header
+            $('#last-updated').html(`<h4 id="timestamp">Last Updated: ${data.metadata.timestamp}</h4>`);
+
+            // Disable mouse events for population map Plotly plot
+            $('.geolayer .geo').css('pointer-events', 'none');
+        }, 100);
+    }
+
+    /**
      * Calls the given function if all of the arguments are defined and not empty
      * @param {Function} func the function to call if the arguments are valid
      * @param {Array} args the arguments to check and pass to the given function
@@ -74,7 +101,7 @@ declare var d3, jQuery, Plotly, document: Document, window: Window, console: Con
     function checkParams(func, args) {
         if (!args.every(arg => typeof arg !== 'undefined'
             && (arg.constructor !== Array || arg.length > 0))) {
-            console.log(`Error: not all parameters are valid for the '${func.name}' function.`);
+            console.error(`Error: not all parameters are valid for the '${func.name}' function.`);
             return;
         }
         func(...args);
@@ -176,7 +203,7 @@ declare var d3, jQuery, Plotly, document: Document, window: Window, console: Con
                 .attr('fill', fill)
                 .attr('stroke', chartColor)
                 .attr('stroke-width', 2)
-                .attr('numLabel', createBarNumLabels)                
+                .attr('numLabel', createBarNumLabels)
                 .style('fill-opacity', 0.5);
         }
 
@@ -474,7 +501,7 @@ declare var d3, jQuery, Plotly, document: Document, window: Window, console: Con
      * @param {Number} plotHeight the height to set the plots to
      */
     function resizePlots(className, plotHeight) {
-        const plotsToResize = Plotly.d3.selectAll(className)
+        const plotsToResize = Plotly.d3.selectAll(className).filter('.js-plotly-plot')
             .style('width', '100%').style('height', `${plotHeight}px`)[0]
             .forEach(node => Plotly.Plots.resize(node));
     }
@@ -554,6 +581,20 @@ declare var d3, jQuery, Plotly, document: Document, window: Window, console: Con
      */
     function linkSidebarButton(sideButton, element) {
         $(sideButton).click(() => animateScroll($(element).offset().top - headerHeight));
+    }
+
+    /**
+     * Parses a URL and returns the value of a given parameter
+     * @param {String} variable the parameter that you want the value of
+     * @returns {String|Boolean} the value of the given parameter or false if it doesn't exist
+     */
+    function getQueryVariable(variable) {
+        const vars = window.location.search.substring(1).split('&');
+        for (let i = 0; i < vars.length; i++) {
+            const pair = vars[i].split('=');
+            if (decodeURIComponent(pair[0]) == variable) return decodeURIComponent(pair[1]);
+        }
+        return false;
     }
 
     // Run ==================================================================================
