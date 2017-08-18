@@ -42,11 +42,11 @@ npm run aggregate
 ```
 After these two steps, simply open `client/index.html` in the browser of your choice.
 
-Alternatively, instead of defining the server in `server/config.js`, you can pass in the target FHIR server's URL through the command line:
+Alternatively, instead of declaring the server in `server/config.js` and running `npm run aggregate`, you can pass in the target FHIR server's URL through the command line:
 ```sh
 node server --server my-fhir-server-url.com
 ```
-A URL passed in through the command line will override the `SERVER` variable in `server/config.js`.
+A URL passed in through the command line will override the existing `SERVER` variable in `server/config.js`.
 
 #### Example Usage
 
@@ -66,7 +66,7 @@ Check out the resulting `client/index.html` by opening it in a browser of your c
 
 ## Configuration
 
-To change the target server, change the value of the `SERVER` variable in `server/config.js` or pass it in through the command line::
+To change the target server, change the value of the `SERVER` variable in `server/config.js` or pass it in through the command line:
 ```js
 SERVER: 'my-fhir-server-url.com',
 ```
@@ -84,16 +84,16 @@ For each tag that you specify in the `TAGS` variable, the Resource Counts Table 
 ```js
 TAGS: [],
 ```
-
-The default file that contains the aggregated server data is `client/data.json`, but one can save the aggregated data to a different file in the `client` directory. In the command line, you can specify the name of a different output file:
+***
+The default file that contains the aggregated server data is `client/data.json`, but you can save the aggregated data to a different file in the `client` directory. In the command line, you can specify the name of a different output file:
 ```sh
 node server --output-file otherDataFile.json
 ```
-To access this other data file when opening the dashboard, specify the name of the other data file in the `file` parameter in the URL of your dashboard:
+To access this other data file when opening the dashboard, specify the name of the other data file in the `file` parameter of the URL of your dashboard:
 ```
 fhir-server-dashboard.com?file=otherDataFile.json
 ```
-Using this feature, one can use this project to display multiple FHIR servers from the same base URL. To see an example of this, check out these two links:
+Using this feature, you can use this project to display multiple FHIR servers from the same base URL. To see an example of this, check out these two links:
 
 https://asherdale.github.io/fhir-server-dashboard/
 
@@ -112,8 +112,10 @@ The application should run on any operating system, on the following browser ver
 - Internet Explorer 10+
 - Microsoft Edge 14+
 
+## License
+This project is licensed under the Apache License, Version 2.0 - see the [LICENSE](LICENSE) file for details.
+
 ## Information
 Made by Asher Dale (@asherdale) in summer 2017 while interning at the Computational Health Informatics Program at Boston Children's Hospital with the SMART team.
 
-## License
-This project is licensed under the Apache License, Version 2.0 - see the [LICENSE](LICENSE) file for details.
+Thank you to Dan Gottlieb, Vlad Ignatov, and Alyssa White for all of your help!
