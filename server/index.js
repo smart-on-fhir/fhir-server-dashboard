@@ -328,9 +328,6 @@ function getDataForBoxPlots(resourceLabels, resCounts, fhirVersion) {
     const resourcesToPlot = lib.sortKeyValuePairs(arr)[0].filter(res => resList.includes(res));
     resourcesToPlot.length = Math.min(resourcesToPlot.length, config.BOX_PLOT_AMOUNT);
 
-    const index = resourcesToPlot.indexOf('Observation'); // TODO: DELETE BEFORE DEPLOYMENT
-    if (index > -1) resourcesToPlot.splice(index, 1);
-
     if (!resourcesToPlot.includes('Condition')) {
         lib.getAllResources(lib.buildFhirURL(APP.server, 'Condition', ['_count=50']), handleConditionData);
     }
